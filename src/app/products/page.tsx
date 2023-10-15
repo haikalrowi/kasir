@@ -55,6 +55,7 @@ function CreateProduct({ slugs }: ReturnType<typeof useProduct>) {
         onSubmit={(ev) => {
           const fd = new FormData(ev.currentTarget);
           ev.preventDefault();
+          ev.currentTarget.reset();
           slugs
             .createProduct(
               fd.get("product-name") as Product["name"],
