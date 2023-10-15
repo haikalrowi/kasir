@@ -10,9 +10,11 @@ export default function Home() {
 
   return (
     <main>
-      <FindProduct {...cashier} />
       <UpdateReceipt {...cashier} />
-      <PrintReceipt {...cashier} />
+      <div className="fixed inset-x-0 bottom-0 m-2">
+        <FindProduct {...cashier} />
+        <PrintReceipt {...cashier} />
+      </div>
     </main>
   );
 }
@@ -23,7 +25,7 @@ function FindProduct({ hooks, slugs }: ReturnType<typeof useCashier>) {
   return (
     <div>
       <form
-        className="grid grid-cols-6 gap-2"
+        className="grid grid-cols-12 gap-2"
         onSubmit={(ev) => {
           const fd = new FormData(ev.currentTarget);
           ev.preventDefault();
@@ -40,7 +42,7 @@ function FindProduct({ hooks, slugs }: ReturnType<typeof useCashier>) {
         }}
       >
         <input
-          className="col-span-4 border border-neutral-500 p-1"
+          className="col-span-9 border border-neutral-500 p-1"
           type="text"
           name="product-name"
           placeholder="Nama produk"
@@ -56,7 +58,7 @@ function FindProduct({ hooks, slugs }: ReturnType<typeof useCashier>) {
             }
           }}
         />
-        <button className="col-span-2" type="submit">
+        <button className="col-span-3" type="submit">
           Tambah
         </button>
         <datalist id={productListId}>
@@ -153,7 +155,7 @@ function UpdateReceipt({ hooks, slugs }: ReturnType<typeof useCashier>) {
 
 function PrintReceipt({ hooks, slugs }: ReturnType<typeof useCashier>) {
   return (
-    <div className="fixed inset-x-0 bottom-0 grid place-items-center">
+    <div className="grid place-items-center">
       <button
         className="p-2"
         type="button"

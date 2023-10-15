@@ -48,9 +48,9 @@ function ListOfProduct({ hooks }: ReturnType<typeof useProduct>) {
 
 function CreateProduct({ slugs }: ReturnType<typeof useProduct>) {
   return (
-    <div className="fixed inset-x-0 bottom-0">
+    <div className="fixed inset-x-0 bottom-0 m-2">
       <form
-        className="grid grid-cols-12
+        className="grid grid-cols-12 gap-2
         [&>*]:p-2"
         onSubmit={(ev) => {
           const fd = new FormData(ev.currentTarget);
@@ -64,14 +64,14 @@ function CreateProduct({ slugs }: ReturnType<typeof useProduct>) {
         }}
       >
         <input
-          className="col-span-5"
+          className="col-span-5 border border-neutral-500"
           type="text"
           name="product-name"
           placeholder="Nama"
           required
         />
         <input
-          className="col-span-4"
+          className="col-span-4 border border-neutral-500"
           type="number"
           name="product-price"
           placeholder="Harga"
