@@ -19,7 +19,14 @@ export default function Products() {
 function ListOfProduct({ hooks }: ReturnType<typeof useProduct>) {
   return (
     <div>
-      <table>
+      <table
+        className="w-full table-fixed
+        [&_td:nth-child(2)]:text-center"
+      >
+        <colgroup>
+          <col className="w-9/12" />
+          <col className="w-3/12" />
+        </colgroup>
         <thead>
           <tr>
             <th>Nama</th>
@@ -30,7 +37,7 @@ function ListOfProduct({ hooks }: ReturnType<typeof useProduct>) {
           {hooks.products?.map((product) => (
             <tr key={product.id}>
               <td>{product.name}</td>
-              <td>{product.price}</td>
+              <td>{product.price.toLocaleString()}</td>
             </tr>
           ))}
         </tbody>
@@ -41,27 +48,38 @@ function ListOfProduct({ hooks }: ReturnType<typeof useProduct>) {
 
 function CreateProduct({ slugs }: ReturnType<typeof useProduct>) {
   return (
-    <div>
+    <div className="fixed inset-x-0 bottom-0">
       <form
+        className="grid grid-cols-12
+        [&>*]:p-2"
         onSubmit={(ev) => {
           const fd = new FormData(ev.currentTarget);
           ev.preventDefault();
           slugs
             .createProduct(
               fd.get("product-name") as Product["name"],
-              fd.get("product-price") as unknown as Product["price"]
+              fd.get("product-price") as unknown as Product["price"],
             )
             .then(slugs.refreshProduct);
         }}
       >
-        <input type="text" name="product-name" placeholder="Nama" required />
         <input
+          className="col-span-5"
+          type="text"
+          name="product-name"
+          placeholder="Nama"
+          required
+        />
+        <input
+          className="col-span-4"
           type="number"
           name="product-price"
           placeholder="Harga"
           required
         />
-        <button type="submit">Tambah</button>
+        <button className="col-span-3" type="submit">
+          Tambah
+        </button>
       </form>
     </div>
   );
@@ -77,7 +95,7 @@ function useProduct() {
   };
   const createProduct = (name: Product["name"], price: Product["price"]) => {
     return slug(
-      `product.create({ data: { name: "${name}", price: ${price} } })`
+      `product.create({ data: { name: "${name}", price: ${price} } })`,
     );
   };
 

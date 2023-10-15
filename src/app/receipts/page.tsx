@@ -18,7 +18,14 @@ export default function Receipts() {
 function ListOfReceipt({ hooks }: ReturnType<typeof useReceipt>) {
   return (
     <div>
-      <table>
+      <table
+        className="w-full table-fixed
+        [&_td:nth-child(2)]:text-center"
+      >
+        <colgroup>
+          <col className="w-9/12" />
+          <col className="w-3/12" />
+        </colgroup>
         <thead>
           <tr>
             <th>ID</th>
@@ -42,7 +49,7 @@ function useReceipt() {
   const [receipts, setReceipts] = useState<Receipt[]>();
 
   const findReceipts = () => {
-    return slug(`receipt.findMany({ where: { finished: true } })`);
+    return slug(`receipt.findMany()`);
   };
 
   useEffect(() => {

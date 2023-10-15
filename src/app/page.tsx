@@ -23,6 +23,7 @@ function FindProduct({ hooks, slugs }: ReturnType<typeof useCashier>) {
   return (
     <div>
       <form
+        className="grid grid-cols-6 gap-2"
         onSubmit={(ev) => {
           const fd = new FormData(ev.currentTarget);
           ev.preventDefault();
@@ -30,20 +31,21 @@ function FindProduct({ hooks, slugs }: ReturnType<typeof useCashier>) {
           slugs
             .searchProductByName(fd.get("product-name") as Product["name"])
             .then((product) => {
-              slugs
-                .createReceiptItem(
-                  hooks.receipt?.id as Receipt["id"],
-                  product.id
-                )
-                .then(slugs.refreshReceipt);
+              if (product && hooks.receipt) {
+                slugs
+                  .createReceiptItem(hooks.receipt.id, product.id)
+                  .then(slugs.refreshReceipt);
+              }
             });
         }}
       >
         <input
+          className="col-span-4 border border-neutral-500 p-1"
           type="text"
           name="product-name"
           placeholder="Nama produk"
           list={productListId}
+          required
           onInput={(ev) => {
             if (ev.currentTarget.value.length === 2) {
               slugs
@@ -54,7 +56,9 @@ function FindProduct({ hooks, slugs }: ReturnType<typeof useCashier>) {
             }
           }}
         />
-        <button type="submit">Tambah ke nota</button>
+        <button className="col-span-2" type="submit">
+          Tambah
+        </button>
         <datalist id={productListId}>
           {hooks.products?.map((product) => (
             <option key={product.id} value={product.name} />
@@ -68,7 +72,16 @@ function FindProduct({ hooks, slugs }: ReturnType<typeof useCashier>) {
 function UpdateReceipt({ hooks, slugs }: ReturnType<typeof useCashier>) {
   return (
     <div>
-      <table>
+      <table
+        className="w-full table-fixed
+        [&_td:nth-child(4)]:text-right"
+      >
+        <colgroup>
+          <col className="w-5/12" />
+          <col className="collapse" />
+          <col className="w-4/12" />
+          <col className="w-3/12" />
+        </colgroup>
         <thead>
           <tr>
             <th>Nama</th>
@@ -83,27 +96,29 @@ function UpdateReceipt({ hooks, slugs }: ReturnType<typeof useCashier>) {
               <td>{receiptItem.Product.name}</td>
               <td>{receiptItem.Product.price.toLocaleString()}</td>
               <td>
-                <button
-                  type="button"
-                  onClick={() => {
-                    slugs
-                      .decreaseReceiptItemQuantity(receiptItem.id)
-                      .then(slugs.refreshReceipt);
-                  }}
-                >
-                  -1
-                </button>
-                <span>{receiptItem.quantity}</span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    slugs
-                      .increaseReceiptItemQuantity(receiptItem.id)
-                      .then(slugs.refreshReceipt);
-                  }}
-                >
-                  +1
-                </button>
+                <div className="grid grid-cols-3 place-items-center">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      slugs
+                        .decreaseReceiptItemQuantity(receiptItem.id)
+                        .then(slugs.refreshReceipt);
+                    }}
+                  >
+                    -1
+                  </button>
+                  <span>{receiptItem.quantity}</span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      slugs
+                        .increaseReceiptItemQuantity(receiptItem.id)
+                        .then(slugs.refreshReceipt);
+                    }}
+                  >
+                    +1
+                  </button>
+                </div>
               </td>
               <td>
                 {(
@@ -113,16 +128,23 @@ function UpdateReceipt({ hooks, slugs }: ReturnType<typeof useCashier>) {
             </tr>
           ))}
         </tbody>
+
         <tfoot>
-          <tr>
-            <td colSpan={2}>Total akhir</td>
-            <td colSpan={2}>
-              {hooks.receipt?.ReceiptItem.reduce(
-                (a, b) => a + b.Product.price * b.quantity,
-                0
-              )}
-            </td>
-          </tr>
+          {hooks.receipt?.ReceiptItem.length! >= 1 ? (
+            <tr className="text-right">
+              <th colSpan={3}>Total akhir</th>
+              <th>
+                {hooks.receipt?.ReceiptItem.reduce(
+                  (a, b) => a + b.Product.price * b.quantity,
+                  0,
+                ).toLocaleString()}
+              </th>
+            </tr>
+          ) : (
+            <tr className="text-center opacity-30">
+              <td colSpan={4}>Tambah minimal 1 produk</td>
+            </tr>
+          )}
         </tfoot>
       </table>
     </div>
@@ -131,8 +153,9 @@ function UpdateReceipt({ hooks, slugs }: ReturnType<typeof useCashier>) {
 
 function PrintReceipt({ hooks, slugs }: ReturnType<typeof useCashier>) {
   return (
-    <div>
+    <div className="fixed inset-x-0 bottom-0 grid place-items-center">
       <button
+        className="p-2"
         type="button"
         onClick={() => {
           slugs
@@ -179,7 +202,7 @@ function useCashier() {
   };
   const createReceiptItem = (
     receiptId: Receipt["id"],
-    productId: Product["id"]
+    productId: Product["id"],
   ) => {
     return slug(`receiptItem.create({
       data: { receiptId: "${receiptId}", productId: "${productId}" },

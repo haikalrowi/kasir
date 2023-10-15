@@ -14,22 +14,39 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <nav>
-          <ul>
-            <li>
-              <a href="/">Beranda</a>
-            </li>
-            <li>
-              <a href="/products">Produk</a>
-            </li>
-            <li>
-              <a href="/receipts">Nota</a>
-            </li>
-          </ul>
-        </nav>
+      <body
+        className="px-4
+        [&>main]:grid
+        [&>main]:gap-4
+        [&>main]:py-4"
+      >
+        <Navigation />
         {children}
       </body>
     </html>
+  );
+}
+
+function Navigation() {
+  return (
+    <nav>
+      <ul
+        className="grid grid-cols-3 text-center
+        [&>li>a]:before:absolute
+        [&>li>a]:before:inset-0
+        [&>li]:relative
+        [&>li]:p-2"
+      >
+        <li>
+          <a href="/">Beranda</a>
+        </li>
+        <li>
+          <a href="/products">Produk</a>
+        </li>
+        <li>
+          <a href="/receipts">Nota</a>
+        </li>
+      </ul>
+    </nav>
   );
 }
