@@ -31,7 +31,7 @@ function Navigation() {
   return (
     <nav className="print:hidden">
       <ul
-        className="grid grid-cols-3 text-center
+        className="grid grid-cols-3 bg-green-200 text-center
         [&>li>a]:before:absolute
         [&>li>a]:before:inset-0
         [&>li]:relative

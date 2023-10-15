@@ -48,10 +48,10 @@ function ListOfProduct({ hooks }: ReturnType<typeof useProduct>) {
 
 function CreateProduct({ slugs }: ReturnType<typeof useProduct>) {
   return (
-    <div className="fixed inset-x-0 bottom-0 m-2">
+    <div className="fixed inset-x-0 bottom-0 m-2 bg-green-100 p-2">
       <form
         className="grid grid-cols-12 gap-2
-        [&>*]:p-2"
+        [&>*]:p-1"
         onSubmit={(ev) => {
           const fd = new FormData(ev.currentTarget);
           ev.preventDefault();
@@ -78,7 +78,7 @@ function CreateProduct({ slugs }: ReturnType<typeof useProduct>) {
           placeholder="Harga"
           required
         />
-        <button className="col-span-3" type="submit">
+        <button className="col-span-3 bg-green-200" type="submit">
           Tambah
         </button>
       </form>

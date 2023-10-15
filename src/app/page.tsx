@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <main>
       <UpdateReceipt {...cashier} />
-      <div className="fixed inset-x-0 bottom-0 m-2">
+      <div className="fixed inset-x-0 bottom-0 m-2 grid gap-2 bg-green-100 p-2">
         <FindProduct {...cashier} />
         <PrintReceipt {...cashier} />
       </div>
@@ -58,7 +58,7 @@ function FindProduct({ hooks, slugs }: ReturnType<typeof useCashier>) {
             }
           }}
         />
-        <button className="col-span-3" type="submit">
+        <button className="col-span-3 bg-green-200" type="submit">
           Tambah
         </button>
         <datalist id={productListId}>
@@ -147,7 +147,7 @@ function PrintReceipt({ hooks, slugs }: ReturnType<typeof useCashier>) {
   return (
     <div className="grid place-items-center">
       <button
-        className="p-2"
+        className="bg-green-200 p-1"
         type="button"
         onClick={() => {
           if (hooks.receipt) {
