@@ -98,29 +98,19 @@ function UpdateReceipt({ hooks, slugs }: ReturnType<typeof useCashier>) {
               <td>{receiptItem.Product.name}</td>
               <td>{receiptItem.Product.price.toLocaleString()}</td>
               <td>
-                <div className="grid grid-cols-3 place-items-center">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      slugs
-                        .decreaseReceiptItemQuantity(receiptItem.id)
-                        .then(slugs.refreshReceipt);
-                    }}
-                  >
-                    -1
-                  </button>
-                  <span>{receiptItem.quantity}</span>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      slugs
-                        .increaseReceiptItemQuantity(receiptItem.id)
-                        .then(slugs.refreshReceipt);
-                    }}
-                  >
-                    +1
-                  </button>
-                </div>
+                <input
+                  className="inline-block w-full text-center"
+                  type="number"
+                  defaultValue={receiptItem.quantity}
+                  onInput={(ev) => {
+                    slugs
+                      .updateReceiptItemQuantity(
+                        receiptItem.id,
+                        parseInt(ev.currentTarget.value),
+                      )
+                      .then(slugs.refreshReceipt);
+                  }}
+                />
               </td>
               <td>
                 {(
@@ -160,9 +150,11 @@ function PrintReceipt({ hooks, slugs }: ReturnType<typeof useCashier>) {
         className="p-2"
         type="button"
         onClick={() => {
-          slugs
-            .updateReceiptAsFinished(hooks.receipt?.id as Receipt["id"])
-            .then(slugs.refreshReceipt);
+          if (hooks.receipt) {
+            slugs
+              .updateReceiptAsFinished(hooks.receipt.id)
+              .then(slugs.refreshReceipt);
+          }
         }}
       >
         Cetak nota
@@ -210,15 +202,12 @@ function useCashier() {
       data: { receiptId: "${receiptId}", productId: "${productId}" },
     })`);
   };
-  const increaseReceiptItemQuantity = (id: ReceiptItem["id"]) => {
+  const updateReceiptItemQuantity = (
+    id: ReceiptItem["id"],
+    quantity: ReceiptItem["quantity"],
+  ) => {
     return slug(`receiptItem.update({
-      data: { quantity: { increment: 1 } },
-      where: { id: "${id}" },
-    })`);
-  };
-  const decreaseReceiptItemQuantity = (id: ReceiptItem["id"]) => {
-    return slug(`receiptItem.update({
-      data: { quantity: { decrement: 1 } },
+      data: { quantity: ${quantity} },
       where: { id: "${id}" },
     })`);
   };
@@ -238,9 +227,8 @@ function useCashier() {
       searchProductsByName,
       searchProductByName,
       createReceiptItem,
-      increaseReceiptItemQuantity,
-      decreaseReceiptItemQuantity,
       updateReceiptAsFinished,
+      updateReceiptItemQuantity,
     },
   };
 }

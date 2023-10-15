@@ -3,7 +3,10 @@ import prisma from "@/lib/prisma";
 async function SLUG() {
   const { product, receipt, receiptItem } = prisma;
 
-  const slug = await receipt.findMany();
+  const slug = await receiptItem.update({
+    data: { quantity: 1 },
+    where: { id: "" },
+  });
 
   const slug2 = await receipt.findFirst({
     where: { finished: false },
