@@ -29,7 +29,7 @@ export default function RootLayout({
 
 function Navigation() {
   return (
-    <nav>
+    <nav className="print:hidden">
       <ul
         className="grid grid-cols-3 text-center
         [&>li>a]:before:absolute

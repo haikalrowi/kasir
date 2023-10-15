@@ -3,9 +3,9 @@ import prisma from "@/lib/prisma";
 async function SLUG() {
   const { product, receipt, receiptItem } = prisma;
 
-  const slug = await receiptItem.update({
-    data: { quantity: 1 },
-    where: { id: "" },
+  const slug = await receipt.findUnique({
+    where: { id: "${id}" },
+    include: { ReceiptItem: { include: { Product: true } } },
   });
 
   const slug2 = await receipt.findFirst({

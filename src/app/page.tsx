@@ -151,9 +151,10 @@ function PrintReceipt({ hooks, slugs }: ReturnType<typeof useCashier>) {
         type="button"
         onClick={() => {
           if (hooks.receipt) {
-            slugs
-              .updateReceiptAsFinished(hooks.receipt.id)
-              .then(slugs.refreshReceipt);
+            slugs.updateReceiptAsFinished(hooks.receipt.id).then(() => {
+              if (hooks.receipt)
+                location.assign(`/receipts/print?id=${hooks.receipt.id}`);
+            });
           }
         }}
       >

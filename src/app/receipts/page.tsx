@@ -35,7 +35,9 @@ function ListOfReceipt({ hooks }: ReturnType<typeof useReceipt>) {
         <tbody>
           {hooks.receipts?.map((receipt) => (
             <tr key={receipt.id}>
-              <td>{receipt.id}</td>
+              <td>
+                <a href={`/receipts/print?id=${receipt.id}`}>{receipt.id}</a>
+              </td>
               <td>{receipt.finished ? "Sudah" : "Belum"}</td>
             </tr>
           ))}
