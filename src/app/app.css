@@ -1,0 +1,13 @@
+table {
+  @apply w-full table-fixed;
+}
+
+input[type="text"],
+input[type="number"] {
+  @apply rounded border border-pink-500 p-1 text-pink-500 placeholder:text-pink-300;
+}
+
+button[type="submit"],
+button[type="button"] {
+  @apply rounded bg-pink-300 p-1;
+}
