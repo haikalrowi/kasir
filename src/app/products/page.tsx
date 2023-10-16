@@ -18,11 +18,11 @@ export default function Products() {
 
 function ListOfProduct({ hooks }: ReturnType<typeof useProduct>) {
   return (
-    <div>
+    <div className="min-h-screen">
       <table>
         <colgroup>
-          <col />
-          <col />
+          <col className="w-9/12" />
+          <col className="w-3/12" />
         </colgroup>
         <thead>
           <tr>
@@ -30,7 +30,7 @@ function ListOfProduct({ hooks }: ReturnType<typeof useProduct>) {
             <th>Harga</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="[&_td:nth-child(2)]:text-right">
           {hooks.products?.map((product) => (
             <tr key={product.id}>
               <td>{product.name}</td>
@@ -45,8 +45,9 @@ function ListOfProduct({ hooks }: ReturnType<typeof useProduct>) {
 
 function CreateProduct({ slugs }: ReturnType<typeof useProduct>) {
   return (
-    <div>
+    <div className="sticky bottom-4">
       <form
+        className="grid grid-cols-1 gap-1"
         onSubmit={(ev) => {
           const fd = new FormData(ev.currentTarget);
           ev.preventDefault();
@@ -82,7 +83,7 @@ function useProduct() {
   };
   const createProduct = (name: Product["name"], price: Product["price"]) => {
     return slug(
-      `product.create({ data: { name: "${name}", price: ${price} } })`,
+      `product.create({ data: { name: \`${name}\`, price: ${price} } })`,
     );
   };
 

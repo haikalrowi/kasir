@@ -20,8 +20,8 @@ function ListOfReceipt({ hooks }: ReturnType<typeof useReceipt>) {
     <div>
       <table>
         <colgroup>
-          <col />
-          <col />
+          <col className="w-9/12" />
+          <col className="w-3/12" />
         </colgroup>
         <thead>
           <tr>
@@ -29,11 +29,16 @@ function ListOfReceipt({ hooks }: ReturnType<typeof useReceipt>) {
             <th>Status</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="[&_td:nth-child(2)]:text-center">
           {hooks.receipts?.map((receipt) => (
             <tr key={receipt.id}>
               <td>
-                <a href={`/receipts/print?id=${receipt.id}`}>{receipt.id}</a>
+                <a
+                  className="text-pink-900 underline"
+                  href={`/receipts/print?id=${receipt.id}`}
+                >
+                  {receipt.id}
+                </a>
               </td>
               <td>{receipt.finished ? "Sudah" : "Belum"}</td>
             </tr>

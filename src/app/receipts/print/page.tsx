@@ -16,7 +16,7 @@ export default function PrintReceipt({
   useEffect(() => {
     if (id) {
       slug(`receipt.findUnique({
-        where: { id: "${id}" },
+        where: { id: \`${id}\` },
         include: { ReceiptItem: { include: { Product: true } } },
       })`).then((receipt) => {
         setReceipt(receipt);
