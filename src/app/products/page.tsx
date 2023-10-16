@@ -31,26 +31,42 @@ function ListOfProduct({ hooks, slugs }: ReturnType<typeof useProduct>) {
           </tr>
         </thead>
         <tbody className="[&_td:nth-child(2)]:text-right">
-          {hooks.products?.map((product) => (
-            <tr key={product.id}>
-              <td>{product.name}</td>
-              <td>
-                <div className="grid grid-cols-1">
-                  <input
-                    type="number"
-                    id={product.id}
-                    defaultValue={product.price}
-                    onInput={(ev) => {
-                      slugs.updateProductPrice(
-                        product.id,
-                        ev.currentTarget.value as unknown as number,
-                      );
-                    }}
-                  />
-                </div>
+          {hooks.products ? (
+            hooks.products.length >= 1 ? (
+              hooks.products.map((product) => (
+                <tr key={product.id}>
+                  <td>{product.name}</td>
+                  <td>
+                    <div className="grid grid-cols-1">
+                      <input
+                        type="number"
+                        id={product.id}
+                        defaultValue={product.price}
+                        onInput={(ev) => {
+                          slugs.updateProductPrice(
+                            product.id,
+                            ev.currentTarget.value as unknown as number,
+                          );
+                        }}
+                      />
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td className="text-center text-pink-300" colSpan={2}>
+                  Produk kosong
+                </td>
+              </tr>
+            )
+          ) : (
+            <tr>
+              <td className="text-center text-pink-300" colSpan={2}>
+                Sedang memuat
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </div>

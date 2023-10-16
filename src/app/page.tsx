@@ -41,35 +41,43 @@ function UpdateReceipt({ hooks, slugs }: ReturnType<typeof useCashier>) {
           className="[&_td:nth-child(2)]:text-center
           [&_td:nth-child(4)]:text-right"
         >
-          {hooks.receipt?.ReceiptItem.map((receiptItem) => (
-            <tr key={receiptItem.id}>
-              <td>{receiptItem.Product.name}</td>
-              <td>{receiptItem.Product.price.toLocaleString()}</td>
-              <td>
-                <div className="grid grid-cols-1">
-                  <input
-                    className="text-center"
-                    type="number"
-                    id={receiptItem.id}
-                    defaultValue={receiptItem.quantity}
-                    onInput={(ev) => {
-                      slugs
-                        .updateReceiptItemQuantity(
-                          receiptItem.id,
-                          parseInt(ev.currentTarget.value),
-                        )
-                        .then(slugs.refreshReceipt);
-                    }}
-                  />
-                </div>
-              </td>
-              <td>
-                {(
-                  receiptItem.Product.price * receiptItem.quantity
-                ).toLocaleString()}
+          {hooks.receipt ? (
+            hooks.receipt.ReceiptItem.map((receiptItem) => (
+              <tr key={receiptItem.id}>
+                <td>{receiptItem.Product.name}</td>
+                <td>{receiptItem.Product.price.toLocaleString()}</td>
+                <td>
+                  <div className="grid grid-cols-1">
+                    <input
+                      className="text-center"
+                      type="number"
+                      id={receiptItem.id}
+                      defaultValue={receiptItem.quantity}
+                      onInput={(ev) => {
+                        slugs
+                          .updateReceiptItemQuantity(
+                            receiptItem.id,
+                            parseInt(ev.currentTarget.value),
+                          )
+                          .then(slugs.refreshReceipt);
+                      }}
+                    />
+                  </div>
+                </td>
+                <td>
+                  {(
+                    receiptItem.Product.price * receiptItem.quantity
+                  ).toLocaleString()}
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td className="text-center text-pink-300" colSpan={4}>
+                Sedang memuat
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
 
         <tfoot>
@@ -86,9 +94,9 @@ function UpdateReceipt({ hooks, slugs }: ReturnType<typeof useCashier>) {
                   </th>
                 </tr>
                 <tr>
-                  <td className="text-center" colSpan={4}>
+                  <td className="text-center text-pink-300" colSpan={4}>
                     <a
-                      className="text-pink-300 underline"
+                      className="underline"
                       href="#"
                       onClick={(ev) => {
                         ev.preventDefault();
@@ -109,13 +117,7 @@ function UpdateReceipt({ hooks, slugs }: ReturnType<typeof useCashier>) {
                 </td>
               </tr>
             )
-          ) : (
-            <tr>
-              <td className="text-center text-pink-300" colSpan={4}>
-                Memuat...
-              </td>
-            </tr>
-          )}
+          ) : null}
         </tfoot>
       </table>
     </div>
