@@ -16,7 +16,7 @@ export default function Products() {
   );
 }
 
-function ListOfProduct({ hooks }: ReturnType<typeof useProduct>) {
+function ListOfProduct({ hooks, slugs }: ReturnType<typeof useProduct>) {
   return (
     <div className="min-h-screen">
       <table>
@@ -34,7 +34,21 @@ function ListOfProduct({ hooks }: ReturnType<typeof useProduct>) {
           {hooks.products?.map((product) => (
             <tr key={product.id}>
               <td>{product.name}</td>
-              <td>{product.price.toLocaleString()}</td>
+              <td>
+                <div className="grid grid-cols-1">
+                  <input
+                    type="number"
+                    id={product.id}
+                    defaultValue={product.price}
+                    onInput={(ev) => {
+                      slugs.updateProductPrice(
+                        product.id,
+                        ev.currentTarget.value as unknown as number,
+                      );
+                    }}
+                  />
+                </div>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -81,6 +95,11 @@ function useProduct() {
       setProducts(products);
     });
   };
+  const updateProductPrice = (id: Product["id"], price: Product["price"]) => {
+    return slug(
+      `product.update({ data: { price: ${price} }, where: { id: \`${id}\` } })`,
+    );
+  };
   const createProduct = (name: Product["name"], price: Product["price"]) => {
     return slug(
       `product.create({ data: { name: \`${name}\`, price: ${price} } })`,
@@ -91,7 +110,7 @@ function useProduct() {
 
   return {
     hooks: { products, setProducts },
-    slugs: { refreshProduct, createProduct },
+    slugs: { refreshProduct, updateProductPrice, createProduct },
   };
 }
 
