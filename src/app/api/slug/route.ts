@@ -2,7 +2,7 @@ import prisma from "@/lib/prisma";
 
 export async function POST(request: Request) {
   const { product, receipt, receiptItem } = prisma;
-  const SLUG_KEY = process.env.SLUG_KEY;
+  const SLUG_KEY = process.env.NEXT_PUBLIC_SLUG_KEY;
   const models = ["product", "receipt", "receiptItem"];
   const prismaQuery = await request.text();
 

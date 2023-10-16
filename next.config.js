@@ -1,4 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = { env: { slugKey: "12345678" } };
+const nextConfig = {};
 
 module.exports = nextConfig;
