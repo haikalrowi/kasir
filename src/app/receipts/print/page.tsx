@@ -47,11 +47,15 @@ export default function PrintReceipt({
             <th>Total</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody
+          className="[&_td:nth-child(2)]:text-center
+          [&_td:nth-child(3)]:text-center
+          [&_td:nth-child(4)]:text-right"
+        >
           {receipt?.ReceiptItem.map((receiptItem) => (
             <tr key={receiptItem.id}>
               <td>{receiptItem.Product.name}</td>
-              <td>{receiptItem.Product.price}</td>
+              <td>{receiptItem.Product.price.toLocaleString()}</td>
               <td>{receiptItem.quantity}</td>
               <td>
                 {(
@@ -71,9 +75,13 @@ export default function PrintReceipt({
               ).toLocaleString()}
             </th>
           </tr>
+          <tr className="print:hidden">
+            <td className="text-center text-pink-300" colSpan={4}>
+              Muat ulang halaman untuk cetak
+            </td>
+          </tr>
         </tfoot>
       </table>
-      <div>Muat ulang halaman untuk cetak</div>
     </main>
   );
 }

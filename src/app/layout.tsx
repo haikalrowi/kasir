@@ -26,7 +26,7 @@ export default function RootLayout({
 
 function Navigation() {
   return (
-    <nav className="sticky top-4">
+    <nav className="sticky top-4 print:hidden">
       <ul
         className="grid grid-flow-col gap-2 text-center
         [&>li>a]:before:absolute
