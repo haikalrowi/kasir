@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <main>
       <UpdateReceipt {...cashier} />
-      <div className="fixed inset-x-0 bottom-0 m-2 grid gap-2 bg-green-100 p-2">
+      <div>
         <FindProduct {...cashier} />
         <PrintReceipt {...cashier} />
       </div>
@@ -25,7 +25,6 @@ function FindProduct({ hooks, slugs }: ReturnType<typeof useCashier>) {
   return (
     <div>
       <form
-        className="grid grid-cols-12 gap-2"
         onSubmit={(ev) => {
           const fd = new FormData(ev.currentTarget);
           ev.preventDefault();
@@ -42,7 +41,6 @@ function FindProduct({ hooks, slugs }: ReturnType<typeof useCashier>) {
         }}
       >
         <input
-          className="col-span-9 border border-neutral-500 p-1"
           type="text"
           name="product-name"
           placeholder="Nama produk"
@@ -58,9 +56,7 @@ function FindProduct({ hooks, slugs }: ReturnType<typeof useCashier>) {
             }
           }}
         />
-        <button className="col-span-3 bg-green-200" type="submit">
-          Tambah
-        </button>
+        <button type="submit">Tambah</button>
         <datalist id={productListId}>
           {hooks.products?.map((product) => (
             <option key={product.id} value={product.name} />
@@ -74,15 +70,12 @@ function FindProduct({ hooks, slugs }: ReturnType<typeof useCashier>) {
 function UpdateReceipt({ hooks, slugs }: ReturnType<typeof useCashier>) {
   return (
     <div>
-      <table
-        className="w-full table-fixed
-        [&_td:nth-child(4)]:text-right"
-      >
+      <table>
         <colgroup>
-          <col className="w-5/12" />
-          <col className="collapse" />
-          <col className="w-4/12" />
-          <col className="w-3/12" />
+          <col />
+          <col />
+          <col />
+          <col />
         </colgroup>
         <thead>
           <tr>
@@ -99,7 +92,6 @@ function UpdateReceipt({ hooks, slugs }: ReturnType<typeof useCashier>) {
               <td>{receiptItem.Product.price.toLocaleString()}</td>
               <td>
                 <input
-                  className="inline-block w-full text-center"
                   type="number"
                   defaultValue={receiptItem.quantity}
                   onInput={(ev) => {
@@ -123,7 +115,7 @@ function UpdateReceipt({ hooks, slugs }: ReturnType<typeof useCashier>) {
 
         <tfoot>
           {hooks.receipt?.ReceiptItem.length! >= 1 ? (
-            <tr className="text-right">
+            <tr>
               <th colSpan={3}>Total akhir</th>
               <th>
                 {hooks.receipt?.ReceiptItem.reduce(
@@ -133,7 +125,7 @@ function UpdateReceipt({ hooks, slugs }: ReturnType<typeof useCashier>) {
               </th>
             </tr>
           ) : (
-            <tr className="text-center opacity-30">
+            <tr>
               <td colSpan={4}>Tambah minimal 1 produk</td>
             </tr>
           )}
@@ -145,9 +137,8 @@ function UpdateReceipt({ hooks, slugs }: ReturnType<typeof useCashier>) {
 
 function PrintReceipt({ hooks, slugs }: ReturnType<typeof useCashier>) {
   return (
-    <div className="grid place-items-center">
+    <div>
       <button
-        className="bg-green-200 p-1"
         type="button"
         onClick={() => {
           if (hooks.receipt) {

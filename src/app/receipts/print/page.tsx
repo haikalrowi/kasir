@@ -32,12 +32,12 @@ export default function PrintReceipt({
 
   return (
     <main>
-      <table className="w-full table-fixed text-center">
+      <table>
         <colgroup>
-          <col className="w-4/12" />
-          <col className="w-2/12" />
-          <col className="w-3/12" />
-          <col className="w-3/12" />
+          <col />
+          <col />
+          <col />
+          <col />
         </colgroup>
         <thead>
           <tr>
@@ -63,9 +63,7 @@ export default function PrintReceipt({
         </tbody>
         <tfoot>
           <tr>
-            <th className="text-right" colSpan={3}>
-              Total akhir
-            </th>
+            <th colSpan={3}>Total akhir</th>
             <th>
               {receipt?.ReceiptItem.reduce(
                 (a, b) => a + b.Product.price * b.quantity,
@@ -75,9 +73,7 @@ export default function PrintReceipt({
           </tr>
         </tfoot>
       </table>
-      <div className="text-center opacity-30 print:hidden">
-        Muat ulang halaman untuk cetak
-      </div>
+      <div>Muat ulang halaman untuk cetak</div>
     </main>
   );
 }

@@ -14,12 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        className="px-4
-        [&>main]:grid
-        [&>main]:gap-4
-        [&>main]:py-4"
-      >
+      <body>
         <Navigation />
         {children}
       </body>
@@ -29,14 +24,8 @@ export default function RootLayout({
 
 function Navigation() {
   return (
-    <nav className="print:hidden">
-      <ul
-        className="grid grid-cols-3 bg-green-200 text-center
-        [&>li>a]:before:absolute
-        [&>li>a]:before:inset-0
-        [&>li]:relative
-        [&>li]:p-2"
-      >
+    <nav>
+      <ul>
         <li>
           <a href="/">Beranda</a>
         </li>

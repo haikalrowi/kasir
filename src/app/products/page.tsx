@@ -19,13 +19,10 @@ export default function Products() {
 function ListOfProduct({ hooks }: ReturnType<typeof useProduct>) {
   return (
     <div>
-      <table
-        className="w-full table-fixed
-        [&_td:nth-child(2)]:text-center"
-      >
+      <table>
         <colgroup>
-          <col className="w-9/12" />
-          <col className="w-3/12" />
+          <col />
+          <col />
         </colgroup>
         <thead>
           <tr>
@@ -48,10 +45,8 @@ function ListOfProduct({ hooks }: ReturnType<typeof useProduct>) {
 
 function CreateProduct({ slugs }: ReturnType<typeof useProduct>) {
   return (
-    <div className="fixed inset-x-0 bottom-0 m-2 bg-green-100 p-2">
+    <div>
       <form
-        className="grid grid-cols-12 gap-2
-        [&>*]:p-1"
         onSubmit={(ev) => {
           const fd = new FormData(ev.currentTarget);
           ev.preventDefault();
@@ -64,23 +59,14 @@ function CreateProduct({ slugs }: ReturnType<typeof useProduct>) {
             .then(slugs.refreshProduct);
         }}
       >
+        <input type="text" name="product-name" placeholder="Nama" required />
         <input
-          className="col-span-5 border border-neutral-500"
-          type="text"
-          name="product-name"
-          placeholder="Nama"
-          required
-        />
-        <input
-          className="col-span-4 border border-neutral-500"
           type="number"
           name="product-price"
           placeholder="Harga"
           required
         />
-        <button className="col-span-3 bg-green-200" type="submit">
-          Tambah
-        </button>
+        <button type="submit">Tambah</button>
       </form>
     </div>
   );
